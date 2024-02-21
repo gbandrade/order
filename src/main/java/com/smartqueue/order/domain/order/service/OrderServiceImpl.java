@@ -35,6 +35,20 @@ public class OrderServiceImpl implements OrderService {
                 .build());
     }
 
+    private List<Order.OrderItems> getOrderList(final List<OrderRequest.OrderItem> items) {
+        List<Order.OrderItems> orderItems = new ArrayList<>();
+
+        items.forEach(item -> {
+            orderItems.add(Order.OrderItems.builder()
+                    .withUnits(item.units())
+                    .withItemId(item.itemId())
+                    .withAmountInCents(itemService.get(item.itemId()).get().getAmountInCents())
+                    .build());
+        });
+
+        return orderItems;
+    }
+
     private List<Order.OrderItems> getOrderList(final Map<Long, String> items) {
         List<Order.OrderItems> orderItems = new ArrayList<>();
 
